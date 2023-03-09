@@ -61,6 +61,15 @@ const App = () => {
     </form>      
   )
 
+  if (user === null) {
+    return (
+      <div>
+        <h2>Log in to application</h2>
+        {loginForm()}
+      </div>
+    )
+  }
+
   return (
     <div>
       <h2>blogs</h2>
