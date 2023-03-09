@@ -13,7 +13,7 @@ const App = () => {
 
   const [title, setTitle] = useState('') 
   const [author, setAuthor] = useState('')
-  const [blogUrl, setBlogUrl] = useState('')
+  const [url, setUrl] = useState('')
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -52,7 +52,19 @@ const App = () => {
   }
 
   const createBlog = async (event) => {
-    event.preventDefault()
+    try {
+      blogService.create({
+        title, author, url,
+      })
+      setTitle('')
+      setAuthor('')
+      setUrl('')
+    } catch (exception) {
+      setErrorMessage('oops')
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 5000)
+    }
   }
 
   const handleLogout = async (event) => {
@@ -111,9 +123,9 @@ const App = () => {
         url:&nbsp;
           <input
           type="text"
-          value={blogUrl}
+          value={url}
           name="Url"
-          onChange={({ target }) => setBlogUrl(target.value)}
+          onChange={({ target }) => setUrl(target.value)}
         />
       </div>
       <button type="submit">create</button>
