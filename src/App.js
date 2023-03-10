@@ -7,6 +7,7 @@ import loginService from './services/login'
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [errorMessage, setErrorMessage] = useState(null)
+  const [successMessage, setSuccessMessage] = useState(null)
 
   const [username, setUsername] = useState('') 
   const [password, setPassword] = useState('')
@@ -44,6 +45,10 @@ const App = () => {
       setUser(user)
       setUsername('')
       setPassword('')
+      setSuccessMessage('successfully logged in, welcome!')
+      setTimeout(() => {
+        setSuccessMessage(null)
+      }, 5000)
     } catch (exception) {
       setErrorMessage('wrong credentials')
       setTimeout(() => {
@@ -53,10 +58,19 @@ const App = () => {
   }
 
   const createBlog = async (event) => {
+    event.preventDefault()
+    const newBlog = {
+      title: title,
+      author: author,
+      url: url
+    }
     try {
-      blogService.create({
-        title, author, url,
-      })
+      const response = await blogService.create(newBlog)
+      setBlogs(blogs.concat(response))
+      setSuccessMessage('a new blog ' + title + ' by ' + author + ' added')
+      setTimeout(() => {
+        setSuccessMessage(null)
+      }, 5000)
       setTitle('')
       setAuthor('')
       setUrl('')
@@ -74,7 +88,11 @@ const App = () => {
     setUser(null)
     setUsername('')
     setPassword('')
-  }
+    setSuccessMessage('successfully logged out, bye!')
+    setTimeout(() => {
+      setSuccessMessage(null)
+    }, 5000)
+}
 
   const loginForm = () => (
     <form onSubmit={handleLogin}>
@@ -137,7 +155,8 @@ const App = () => {
     return (
       <div>
         <h2>Log in to application</h2>
-        <Notification message={errorMessage} />
+        <Notification type="error" message={errorMessage} />
+        <Notification type="success" message={successMessage} />
         {loginForm()}
       </div>
     )
@@ -146,7 +165,8 @@ const App = () => {
   return (
     <div>
       <h2>blogs</h2>
-      <Notification message={errorMessage} />
+      <Notification type="error" message={errorMessage} />
+      <Notification type="success" message={successMessage} />
       <p>
         {user.name} logged in
         &nbsp;
