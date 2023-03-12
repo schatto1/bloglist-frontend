@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Blog from './components/Blog'
 import Notification from './components/Notification'
 import Togglable from './components/Togglable'
@@ -58,6 +58,8 @@ const App = () => {
     }
   }
 
+  const blogFormRef = useRef()
+
   const createBlog = async (event) => {
     event.preventDefault()
     const newBlog = {
@@ -66,8 +68,8 @@ const App = () => {
       url: url
     }
     try {
-      const response = await blogService.create(newBlog)
-      setBlogs(blogs.concat(response))
+      const returnedBlog = await blogService.create(newBlog)
+      setBlogs(blogs.concat(returnedBlog))
       setSuccessMessage('a new blog ' + title + ' by ' + author + ' added')
       setTimeout(() => {
         setSuccessMessage(null)
@@ -75,6 +77,7 @@ const App = () => {
       setTitle('')
       setAuthor('')
       setUrl('')
+      blogFormRef.current.toggleVisibility()
     } catch (exception) {
       setErrorMessage('oops')
       setTimeout(() => {
@@ -173,7 +176,7 @@ const App = () => {
         &nbsp;
         <button type="submit" onClick={handleLogout}>logout</button>
       </p>
-      <Togglable buttonLabel="create new">
+      <Togglable buttonLabel="create new note" ref={blogFormRef}>
         <h2>create new</h2>
         {createBlogForm()}
       </Togglable>
