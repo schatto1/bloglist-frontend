@@ -20,7 +20,11 @@ const Blog = ({blog}) => {
           <button onClick={toggleDetail}>hide details</button>
         </div>
         <div>{blog.url}</div>
-        <div>{blog.likes}</div>
+        <div>
+          {blog.likes}
+          &nbsp;
+          <button onClick="#">like</button>
+        </div>
         <div>{userFullName}</div>
       </div>
     )
