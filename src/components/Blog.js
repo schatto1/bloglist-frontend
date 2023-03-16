@@ -9,6 +9,8 @@ const Blog = ({blog}) => {
 
   console.log(blog)
 
+  const userFullName  = blog.user ? blog.user.name : "User unknown"
+
   if (showDetail) {
     return (
       <div className="blog">
@@ -19,7 +21,7 @@ const Blog = ({blog}) => {
         </div>
         <div>{blog.url}</div>
         <div>{blog.likes}</div>
-        <div></div>
+        <div>{userFullName}</div>
       </div>
     )
   }
