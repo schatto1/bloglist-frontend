@@ -70,6 +70,8 @@ const App = () => {
     }
     try {
       const returnedBlog = await blogService.create(newBlog)
+      const blogCreator  = returnedBlog.user.name ? returnedBlog.user.name : user.name
+      returnedBlog.creator = blogCreator
       setBlogs(blogs.concat(returnedBlog))
       setSuccessMessage('a new blog ' + title + ' by ' + author + ' added')
       setTimeout(() => {

@@ -7,9 +7,9 @@ const Blog = ({blog}) => {
     setShowDetail(!showDetail)
   }
 
-  console.log(blog)
-
-  const userFullName  = blog.user ? blog.user.name : "User unknown"
+  const userFullName  = blog.user
+                        ? (blog.user.name ? blog.user.name : blog.creator)
+                        : "User unknown"
 
   if (showDetail) {
     return (
