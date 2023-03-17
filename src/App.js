@@ -89,6 +89,11 @@ const App = () => {
     }
   }
 
+  const handleLike = async (updatedBlog) => {
+    console.log("passed updatedBlog", updatedBlog)
+    
+  }
+
   const handleLogout = async (event) => {
     window.localStorage.removeItem('loggedBlogappUser')
     blogService.setToken(null)
@@ -159,7 +164,7 @@ const App = () => {
       </Togglable>
       
       {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
+        <Blog key={blog.id} blog={blog} handleLike={handleLike} />
       )}
     </div>
   )
