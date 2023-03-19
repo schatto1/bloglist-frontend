@@ -21,7 +21,7 @@ const App = () => {
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
-      setBlogs( blogs )
+      setBlogs( blogs.sort((a, b) => b.likes - a.likes) )
     )  
   }, [])
 
@@ -94,10 +94,7 @@ const App = () => {
     const updatedBlogs = [...blogs]
     const blogToUpdate = updatedBlogs.find((blog) => blog.id === updatedBlog.id)
     blogToUpdate.likes += 1
-    setBlogs(updatedBlogs)
-    console.log(updatedBlogs)
-    // console.log("passed updatedBlog", updatedBlog)
-    
+    setBlogs( updatedBlogs.sort((a, b) => b.likes - a.likes) )
   }
 
   const handleLogout = async (event) => {
