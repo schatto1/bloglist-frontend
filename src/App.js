@@ -90,7 +90,13 @@ const App = () => {
   }
 
   const handleLike = async (updatedBlog) => {
-    console.log("passed updatedBlog", updatedBlog)
+    await blogService.update(updatedBlog)
+    const updatedBlogs = [...blogs]
+    const blogToUpdate = updatedBlogs.find((blog) => blog.id === updatedBlog.id)
+    blogToUpdate.likes += 1
+    setBlogs(updatedBlogs)
+    console.log(updatedBlogs)
+    // console.log("passed updatedBlog", updatedBlog)
     
   }
 
