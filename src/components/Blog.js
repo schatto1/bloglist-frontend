@@ -26,8 +26,8 @@ const Blog = ({ blog, handleLike, handleRemove, currentUser }) => {
   }
 
   const userFullName  = blog.user
-                        ? (blog.user.name ? blog.user.name : blog.creator)
-                        : "User unknown"
+    ? (blog.user.name ? blog.user.name : blog.creator)
+    : 'User unknown'
 
   if (showDetail) {
     return (
@@ -45,10 +45,10 @@ const Blog = ({ blog, handleLike, handleRemove, currentUser }) => {
         </div>
         <div>{userFullName}</div>
         {blog.user && blog.user.username === currentUser.username ?
-        <div>
-          <button onClick={removeBlog}>remove</button>
-        </div>
-        : ""}
+          <div>
+            <button onClick={removeBlog}>remove</button>
+          </div>
+          : ''}
       </div>
     )
   }
