@@ -97,6 +97,15 @@ const App = () => {
     setBlogs( updatedBlogs.sort((a, b) => b.likes - a.likes) )
   }
 
+  const handleRemove = async (blogToRemove) => {
+    const confirmRemoval = window.confirm(`Are you sure you want to remove "${blogToRemove.title}" by ${blogToRemove.author}?`)
+    if (confirmRemoval) {
+      // await blogService.remove(blogToRemove)
+      const lessBlogs = blogs.filter((blog) => blog.id !== blogToRemove.id)
+      setBlogs(lessBlogs)
+    }
+  }
+
   const handleLogout = async (event) => {
     window.localStorage.removeItem('loggedBlogappUser')
     blogService.setToken(null)
@@ -167,7 +176,13 @@ const App = () => {
       </Togglable>
       
       {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} handleLike={handleLike} currentUser={user}/>
+        <Blog
+          key={blog.id}
+          blog={blog}
+          handleLike={handleLike}
+          handleRemove={handleRemove}
+          currentUser={user}
+        />
       )}
     </div>
   )

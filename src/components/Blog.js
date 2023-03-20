@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-const Blog = ({ blog, handleLike, currentUser }) => {
+const Blog = ({ blog, handleLike, handleRemove, currentUser }) => {
   const [showDetail, setShowDetail] = useState(false)
 
   const toggleDetail = () => {
@@ -14,6 +14,14 @@ const Blog = ({ blog, handleLike, currentUser }) => {
       user: blog.user.id
     }
     handleLike(updatedBlog)
+  }
+
+  const removeBlog = () => {
+    const blogToRemove = {
+      ...blog,
+      user: blog.user.id
+    }
+    handleRemove(blogToRemove)
   }
 
   const userFullName  = blog.user
@@ -37,7 +45,7 @@ const Blog = ({ blog, handleLike, currentUser }) => {
         <div>{userFullName}</div>
         {blog.user && blog.user.username === currentUser.username ?
         <div>
-          <button onClick="#">remove</button>
+          <button onClick={removeBlog}>remove</button>
         </div>
         : ""}
       </div>
