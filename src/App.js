@@ -100,9 +100,20 @@ const App = () => {
   const handleRemove = async (blogToRemove) => {
     const confirmRemoval = window.confirm(`Are you sure you want to remove "${blogToRemove.title}" by ${blogToRemove.author}?`)
     if (confirmRemoval) {
-      // await blogService.remove(blogToRemove)
-      const lessBlogs = blogs.filter((blog) => blog.id !== blogToRemove.id)
-      setBlogs(lessBlogs)
+      try {
+        await blogService.remove(blogToRemove)
+        const lessBlogs = blogs.filter((blog) => blog.id !== blogToRemove.id)
+        setBlogs(lessBlogs)
+        setSuccessMessage(blogToRemove.title + ' by ' + blogToRemove.author + ' deleted')
+        setTimeout(() => {
+          setSuccessMessage(null)
+        }, 5000)
+      } catch (exception) {
+        setErrorMessage('oops')
+        setTimeout(() => {
+          setErrorMessage(null)
+        }, 5000)
+      }      
     }
   }
 
