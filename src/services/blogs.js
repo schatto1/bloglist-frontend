@@ -36,11 +36,7 @@ const remove = async toRemove => {
     headers: { Authorization: token },
   }
 
-  console.log("blog to Remove", toRemove)
-
   const deleteUrl = `${baseUrl}/${toRemove.id}`
-
-  console.log("remove url", deleteUrl)
 
   const response = await axios.delete(deleteUrl, config)
   return response.data
