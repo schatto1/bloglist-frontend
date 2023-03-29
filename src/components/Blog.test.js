@@ -43,8 +43,6 @@ test('clicking the button shows blog URL and likes', async () => {
     name: 'Testy McTesterson'
   }
 
-  const mockHandler = jest.fn()
-
   render(<Blog
     blog={blog}
     handleLike={() => console.log('like')}
@@ -63,29 +61,41 @@ test('clicking the button shows blog URL and likes', async () => {
   expect(testLikes).toBeDefined()
 })
 
-// test('clicking the like button increments likes by two', async () => {
-//   const blog = {
-//     title: 'Component testing is done with react-testing-library',
-//     author: 'Full Stack Open Author',
-//     url: 'this-is-an-url',
-//     likes: 30,
-//   }
+test('clicking the like button increments likes by two', async () => {
+  const blog = {
+    title: 'Component testing is done with react-testing-library',
+    author: 'Full Stack Open Author',
+    url: 'this-is-an-url',
+    likes: 30,
+    user: {
+      username: 'tester',
+      name: 'Testy McTesterson',
+      id: 'testtesttest'
+    }
+  }
 
-//   const mockHandler = jest.fn()
+  const testUser = {
+    username: 'tester',
+    name: 'Testy McTesterson',
+    id: 'testtesttest'
+  }
 
-//   render(<Blog blog={blog} handleLike={handleLike} handleRemove={handleRemove} currentUser={user} />)
+  const mockHandler = jest.fn()
 
-//   const testUser = userEvent.setup()
-//   const viewButton = screen.getByText('view')
-//   await testUser.click(viewButton)
+  render(<Blog
+    blog={blog}
+    handleLike={mockHandler}
+    handleRemove={() => console.log('remove')}
+    currentUser={testUser}
+  />)
 
-//   const likeButton = screen.getByText('like')
-//   await testUser.click(likeButton)
-//   await testUser.click(likeButton)
+  const user = userEvent.setup()
+  const viewButton = screen.getByText('view')
+  await user.click(viewButton)
 
-//   expect(mockHandler.mock.calls).toHaveLength(2)
-// })
+  const likeButton = screen.getByText('like')
+  await user.click(likeButton)
+  await user.click(likeButton)
 
-test('placeholder', async () => {
-
+  expect(mockHandler.mock.calls).toHaveLength(2)
 })
