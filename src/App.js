@@ -15,10 +15,6 @@ const App = () => {
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
 
-  const [title, setTitle] = useState('')
-  const [author, setAuthor] = useState('')
-  const [url, setUrl] = useState('')
-
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs.sort((a, b) => b.likes - a.likes) )
@@ -61,25 +57,16 @@ const App = () => {
 
   const blogFormRef = useRef()
 
-  const createBlog = async (event) => {
-    event.preventDefault()
-    const newBlog = {
-      title: title,
-      author: author,
-      url: url
-    }
+  const createBlog = async (newBlog) => {
     try {
       const returnedBlog = await blogService.create(newBlog)
       const blogCreator  = returnedBlog.user.name ? returnedBlog.user.name : user.name
       returnedBlog.creator = blogCreator
       setBlogs(blogs.concat(returnedBlog))
-      setSuccessMessage('a new blog ' + title + ' by ' + author + ' added')
+      setSuccessMessage('a new blog ' + newBlog.title + ' by ' + newBlog.author + ' added')
       setTimeout(() => {
         setSuccessMessage(null)
       }, 5000)
-      setTitle('')
-      setAuthor('')
-      setUrl('')
       blogFormRef.current.toggleVisibility()
     } catch (exception) {
       setErrorMessage('oops')
@@ -177,12 +164,6 @@ const App = () => {
       <Togglable buttonLabel="create new note" ref={blogFormRef}>
         <BlogForm
           handleSubmit={createBlog}
-          handleTitleChange={({ target }) => setTitle(target.value)}
-          handleAuthorChange={({ target }) => setAuthor(target.value)}
-          handleUrlChange={({ target }) => setUrl(target.value)}
-          title={title}
-          author={author}
-          url={url}
         />
       </Togglable>
 
