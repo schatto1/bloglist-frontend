@@ -16,7 +16,11 @@ describe('Blog app', function() {
 
   describe('Login',function() {
     it('succeeds with correct credentials', function() {
-      // ...
+      cy.get('#username').type('testy')
+      cy.get('#password').type('testerson')
+      cy.get('#login-button').click()
+
+      cy.contains('Testy McTesterson logged in')
     })
 
     it('fails with wrong credentials', function() {
