@@ -7,4 +7,14 @@ describe('Blog app', function() {
   it('Login form is shown', function() {
     cy.contains('Log in to application')
   })
+
+  describe('Login',function() {
+    it('succeeds with correct credentials', function() {
+      // ...
+    })
+
+    it('fails with wrong credentials', function() {
+      // ...
+    })
+  })
 })
