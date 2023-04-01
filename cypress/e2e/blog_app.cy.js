@@ -24,6 +24,25 @@ describe('Blog app', function() {
     })
 
     it('fails with wrong credentials', function() {
+      cy.get('#username').type('hello')
+      cy.get('#password').type('goodbye')
+      cy.get('#login-button').click()
+
+      cy.get('.error')
+        .should('contain', 'wrong credentials')
+        .and('have.css', 'color', 'rgb(255, 0, 0)')
+        .and('have.css', 'border-style', 'solid')
+
+      cy.get('html').should('not.contain', 'Testy Mctesterson logged in')
+    })
+  })
+
+  describe('When logged in', function() {
+    beforeEach(function() {
+      cy.login({ username: 'testy', password: 'testerson' })
+    })
+
+    it('A blog can be created', function() {
       // ...
     })
   })
