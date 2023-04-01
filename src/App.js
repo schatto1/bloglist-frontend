@@ -163,7 +163,7 @@ const App = () => {
         &nbsp;
         <button type="submit" onClick={handleLogout}>logout</button>
       </p>
-      <Togglable buttonLabel="create new note" ref={blogFormRef}>
+      <Togglable buttonLabel="create new blog" ref={blogFormRef}>
         <BlogForm
           handleSubmit={createBlog}
         />
