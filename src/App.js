@@ -138,7 +138,7 @@ const App = () => {
           id="password"
         />
       </div>
-      <button type="submit">login</button>
+      <button type="submit" id="login-button">login</button>
     </form>
   )
 
