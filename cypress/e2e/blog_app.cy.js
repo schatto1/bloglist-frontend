@@ -89,20 +89,35 @@ describe('Blog app', function() {
       })
 
       it('one of the blogs can be liked', function () {
-        cy.contains('This is a test blog post').parent().find('#viewButton').as('viewButton')
+        const testBlog = 'This is a test blog post'
+        cy.contains(testBlog).parent().find('#viewButton').as('viewButton')
         cy.get('@viewButton').click()
-        cy.contains('This is a test blog post').parent().parent().find('#likeButton').as('likeButton')
+        cy.contains(testBlog).parent().parent().find('#likeButton').as('likeButton')
         cy.get('@likeButton').click()
         cy.get('#likeCount').contains('1')
       })
 
       it('creator can delete one of their blogs', function () {
-        cy.contains('This is Bloggy\'s blog post').parent().find('#viewButton').as('viewButton')
+        const testBlog = 'This is Bloggy\'s blog post'
+        cy.contains(testBlog).parent().find('#viewButton').as('viewButton')
         cy.get('@viewButton').click()
-        cy.contains('This is a test blog post').parent().parent().find('#removeButton').as('removeButton')
+        cy.contains(testBlog).parent().parent().find('#removeButton').as('removeButton')
         cy.get('@removeButton').click()
         cy.wait(5000)
-        cy.get('html').should('not.contain', 'This is Bloggy\'s blog post')
+        cy.get('html').should('not.contain', testBlog)
+      })
+
+      it('creator only sees delete button for their own blogs', function () {
+        const testBlog1 = 'This is Bloggy\'s second blog post'
+        const testBlog2 = 'This is a third test blog post'
+        cy.contains(testBlog1).parent().find('#viewButton').as('viewButton1')
+        cy.get('@viewButton1').click()
+        cy.contains(testBlog1).parent().parent().find('#removeButton').as('removeButton')
+        cy.contains(testBlog1).parent().parent().find('#hideDetails').as('hideButton')
+        cy.get('@hideButton').click()
+        cy.contains(testBlog2).parent().find('#viewButton').as('viewButton2')
+        cy.get('@viewButton2').click()
+        cy.get('#removeButton').should('not.exist')
       })
     })
   })

@@ -35,7 +35,7 @@ const Blog = ({ blog, handleLike, handleRemove, currentUser }) => {
         <div>
           <span>{blog.title}</span> <span>{blog.author}</span>
           &nbsp;
-          <button onClick={toggleDetail}>hide details</button>
+          <button onClick={toggleDetail} id='hideDetails'>hide details</button>
         </div>
         <div>{blog.url}</div>
         <div>
