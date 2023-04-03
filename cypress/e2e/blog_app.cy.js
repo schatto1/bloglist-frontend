@@ -1,12 +1,18 @@
 describe('Blog app', function() {
   beforeEach(function() {
     cy.request('POST', 'http://localhost:3003/api/testing/reset')
-    const user = {
+    const user1 = {
       name: 'Testy McTesterson',
       username: 'testy',
       password: 'testerson'
     }
-    cy.request('POST', 'http://localhost:3003/api/users/', user)
+    const user2 = {
+      name: 'Bloggy McBloggerson',
+      username: 'bloggy',
+      password: 'bloggerson'
+    }
+    cy.request('POST', 'http://localhost:3003/api/users/', user1)
+    cy.request('POST', 'http://localhost:3003/api/users/', user2)
     cy.visit('http://localhost:3000')
   })
 
@@ -51,21 +57,52 @@ describe('Blog app', function() {
       cy.contains('This is a new blog post')
     })
 
-    describe('and a blog exists', function () {
+    describe('and several blogs exists', function () {
       beforeEach(function () {
         cy.createBlog({
           title: 'This is a test blog post',
           author: 'Test Author',
           url: 'test-url'
         })
+        cy.createBlog({
+          title: 'This is a second test blog post',
+          author: 'Test Author',
+          url: 'test-url-2'
+        })
+        cy.createBlog({
+          title: 'This is a third test blog post',
+          author: 'Test Author',
+          url: 'test-url-3'
+        })
+
+        cy.login({ username: 'bloggy', password: 'bloggerson' })
+        cy.createBlog({
+          title: 'This is Bloggy\'s blog post',
+          author: 'Blog Author',
+          url: 'blog-url'
+        })
+        cy.createBlog({
+          title: 'This is Bloggy\'s second blog post',
+          author: 'Blog Author',
+          url: 'blog-url-3'
+        })
       })
 
-      it('it can be liked', function () {
+      it('one of the blogs can be liked', function () {
         cy.contains('This is a test blog post').parent().find('#viewButton').as('viewButton')
         cy.get('@viewButton').click()
         cy.contains('This is a test blog post').parent().parent().find('#likeButton').as('likeButton')
         cy.get('@likeButton').click()
         cy.get('#likeCount').contains('1')
+      })
+
+      it('creator can delete one of their blogs', function () {
+        cy.contains('This is Bloggy\'s blog post').parent().find('#viewButton').as('viewButton')
+        cy.get('@viewButton').click()
+        cy.contains('This is a test blog post').parent().parent().find('#removeButton').as('removeButton')
+        cy.get('@removeButton').click()
+        cy.wait(5000)
+        cy.get('html').should('not.contain', 'This is Bloggy\'s blog post')
       })
     })
   })

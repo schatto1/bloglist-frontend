@@ -46,7 +46,7 @@ const Blog = ({ blog, handleLike, handleRemove, currentUser }) => {
         <div>{userFullName}</div>
         {blog.user && blog.user.username === currentUser.username ?
           <div>
-            <button onClick={removeBlog}>remove</button>
+            <button onClick={removeBlog} id='removeButton'>remove</button>
           </div>
           : ''}
       </div>
