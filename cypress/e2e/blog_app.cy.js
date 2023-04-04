@@ -65,7 +65,7 @@ describe('Blog app', function() {
           url: 'test-url'
         })
         cy.createBlog({
-          title: 'This is a second test blog post',
+          title: 'This blog will have the most likes',
           author: 'Test Author',
           url: 'test-url-2'
         })
@@ -83,6 +83,11 @@ describe('Blog app', function() {
         })
         cy.createBlog({
           title: 'This is Bloggy\'s second blog post',
+          author: 'Blog Author',
+          url: 'blog-url-3'
+        })
+        cy.createBlog({
+          title: 'This blog will have the second most likes',
           author: 'Blog Author',
           url: 'blog-url-3'
         })
@@ -118,6 +123,27 @@ describe('Blog app', function() {
         cy.contains(testBlog2).parent().find('#viewButton').as('viewButton2')
         cy.get('@viewButton2').click()
         cy.get('#removeButton').should('not.exist')
+      })
+
+      it('blogs are sorted by number of likes', function () {
+        const mostLikes = 'This blog will have the most likes'
+        const moreLikes = 'This blog will have the second most likes'
+        cy.contains(mostLikes).parent().find('#viewButton').as('viewButton1')
+        cy.get('@viewButton1').click()
+        cy.contains(mostLikes).parent().parent().find('#likeButton').as('likeButton1')
+        cy.contains(moreLikes).parent().find('#viewButton').as('viewButton2')
+        cy.get('@viewButton2').click()
+        cy.contains(moreLikes).parent().parent().find('#likeButton').as('likeButton2')
+        for (let i = 0; i < 5; i++) {
+          cy.get('@likeButton2').click()
+          cy.wait(200)
+        }
+        for (let i = 0; i < 10; i++) {
+          cy.get('@likeButton1').click()
+          cy.wait(200)
+        }
+        cy.get('.blog').eq(0).should('contain', mostLikes)
+        cy.get('.blog').eq(1).should('contain', moreLikes)
       })
     })
   })
