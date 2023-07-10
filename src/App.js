@@ -78,18 +78,24 @@ const App = () => {
         : user.name;
       returnedBlog.creator = blogCreator;
       setBlogs(blogs.concat(returnedBlog));
-      setSuccessMessage(
-        "a new blog " + newBlog.title + " by " + newBlog.author + " added",
-      );
+      const successMessage = "a new blog " + newBlog.title + " by " + newBlog.author + " added"
+      dispatch({
+        type: 'ON',
+        notification: successMessage
+      })
       setTimeout(() => {
-        setSuccessMessage(null);
-      }, 5000);
+        dispatch({type: 'OFF'})
+      }, 5000)
       blogFormRef.current.toggleVisibility();
     } catch (exception) {
-      setErrorMessage("oops");
+      const errorMessage = "oops"
+      dispatch({
+        type: 'ON',
+        notification: errorMessage
+      })
       setTimeout(() => {
-        setErrorMessage(null);
-      }, 5000);
+        dispatch({type: 'OFF'})
+      }, 5000)
     }
   };
 
