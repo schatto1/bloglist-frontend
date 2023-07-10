@@ -21,6 +21,16 @@ const App = () => {
 
   // const queryClient = useQueryClient()
 
+  const setNotification = (message) => {
+    dispatch({
+      type: 'ON',
+      notification: message
+    })
+    setTimeout(() => {
+      dispatch({type: 'OFF'})
+    }, 5000)
+  }
+
   useEffect(() => {
     blogService
       .getAll()
@@ -49,22 +59,10 @@ const App = () => {
       setUsername("");
       setPassword("");
       const successMessage = "successfully logged in, welcome!"
-      dispatch({
-        type: 'ON',
-        notification: successMessage
-      })
-      setTimeout(() => {
-        dispatch({type: 'OFF'})
-      }, 5000)
+      setNotification(successMessage)
     } catch (exception) {
       const errorMessage = "wrong credentials"
-      dispatch({
-        type: 'ON',
-        notification: errorMessage
-      })
-      setTimeout(() => {
-        dispatch({type: 'OFF'})
-      }, 5000)
+      setNotification(errorMessage)
     }
   };
 
@@ -79,23 +77,11 @@ const App = () => {
       returnedBlog.creator = blogCreator;
       setBlogs(blogs.concat(returnedBlog));
       const successMessage = "a new blog " + newBlog.title + " by " + newBlog.author + " added"
-      dispatch({
-        type: 'ON',
-        notification: successMessage
-      })
-      setTimeout(() => {
-        dispatch({type: 'OFF'})
-      }, 5000)
+      setNotification(successMessage)
       blogFormRef.current.toggleVisibility();
     } catch (exception) {
       const errorMessage = "oops"
-      dispatch({
-        type: 'ON',
-        notification: errorMessage
-      })
-      setTimeout(() => {
-        dispatch({type: 'OFF'})
-      }, 5000)
+      setNotification(errorMessage)
     }
   };
 
