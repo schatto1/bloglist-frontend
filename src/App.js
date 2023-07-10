@@ -10,8 +10,6 @@ import { useNotificationDispatch } from "./NotificationContext";
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
-  const [errorMessage, setErrorMessage] = useState(null);
-  const [successMessage, setSuccessMessage] = useState(null);
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -104,17 +102,11 @@ const App = () => {
         await blogService.remove(blogToRemove);
         const lessBlogs = blogs.filter((blog) => blog.id !== blogToRemove.id);
         setBlogs(lessBlogs);
-        setSuccessMessage(
-          blogToRemove.title + " by " + blogToRemove.author + " deleted",
-        );
-        setTimeout(() => {
-          setSuccessMessage(null);
-        }, 5000);
+        const successMessage = blogToRemove.title + " by " + blogToRemove.author + " deleted"
+        setNotification(successMessage)
       } catch (exception) {
-        setErrorMessage("oops");
-        setTimeout(() => {
-          setErrorMessage(null);
-        }, 5000);
+        const errorMessage = "oops"
+        setNotification(errorMessage)
       }
     }
   };
@@ -125,10 +117,7 @@ const App = () => {
     setUser(null);
     setUsername("");
     setPassword("");
-    setSuccessMessage("successfully logged out, bye!");
-    setTimeout(() => {
-      setSuccessMessage(null);
-    }, 5000);
+    setNotification("successfully logged out, bye!");
   };
 
   const loginForm = () => (
@@ -163,7 +152,7 @@ const App = () => {
     return (
       <div>
         <h2>Log in to application</h2>
-        <Notification type="error" message={errorMessage} />
+        <Notification />
         {loginForm()}
       </div>
     );
@@ -172,8 +161,7 @@ const App = () => {
   return (
     <div>
       <h2>blogs</h2>
-      <Notification type="error" message={errorMessage} />
-      <Notification type="success" message={successMessage} />
+      <Notification />
       <p>
         {user.name} logged in &nbsp;
         <button type="submit" onClick={handleLogout}>
