@@ -158,7 +158,6 @@ const App = () => {
       <div>
         <h2>Log in to application</h2>
         <Notification type="error" message={errorMessage} />
-        <Notification type="success" message={successMessage} />
         {loginForm()}
       </div>
     );
