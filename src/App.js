@@ -5,6 +5,8 @@ import Notification from "./components/Notification";
 import Togglable from "./components/Togglable";
 import blogService from "./services/blogs";
 import loginService from "./services/login";
+import { useNotificationDispatch } from "./NotificationContext";
+// import { useQuery, useMutation, useQueryClient } from 'react-query'
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
@@ -14,6 +16,10 @@ const App = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
+
+  const dispatch = useNotificationDispatch()
+
+  // const queryClient = useQueryClient()
 
   useEffect(() => {
     blogService
@@ -42,15 +48,23 @@ const App = () => {
       setUser(user);
       setUsername("");
       setPassword("");
-      setSuccessMessage("successfully logged in, welcome!");
+      const successMessage = "successfully logged in, welcome!"
+      dispatch({
+        type: 'ON',
+        notification: successMessage
+      })
       setTimeout(() => {
-        setSuccessMessage(null);
-      }, 5000);
+        dispatch({type: 'OFF'})
+      }, 5000)
     } catch (exception) {
-      setErrorMessage("wrong credentials");
+      const errorMessage = "wrong credentials"
+      dispatch({
+        type: 'ON',
+        notification: errorMessage
+      })
       setTimeout(() => {
-        setErrorMessage(null);
-      }, 5000);
+        dispatch({type: 'OFF'})
+      }, 5000)
     }
   };
 
