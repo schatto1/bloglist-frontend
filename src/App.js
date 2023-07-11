@@ -6,10 +6,9 @@ import Togglable from "./components/Togglable";
 import blogService from "./services/blogs";
 import loginService from "./services/login";
 import { useNotificationDispatch } from "./NotificationContext";
-// import { useQuery, useMutation, useQueryClient } from 'react-query'
+import { useQuery, useMutation, useQueryClient } from 'react-query'
 
 const App = () => {
-  const [blogs, setBlogs] = useState([]);
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -29,11 +28,8 @@ const App = () => {
     }, 5000)
   }
 
-  useEffect(() => {
-    blogService
-      .getAll()
-      .then((blogs) => setBlogs(blogs.sort((a, b) => b.likes - a.likes)));
-  }, []);
+  const queryClient = useQueryClient()
+  const { data: blogs = [] } = useQuery('blogs', blogService.getAll)
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem("loggedBlogappUser");
