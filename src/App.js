@@ -16,8 +16,6 @@ const App = () => {
 
   const dispatch = useNotificationDispatch()
 
-  // const queryClient = useQueryClient()
-
   const setNotification = (message) => {
     dispatch({
       type: 'ON',
@@ -28,8 +26,31 @@ const App = () => {
     }, 5000)
   }
 
+  const blogFormRef = useRef();
+
   const queryClient = useQueryClient()
   const { data: blogs = [] } = useQuery('blogs', blogService.getAll)
+
+  const createMutation = useMutation((newBlog) => blogService.create(newBlog), {
+    onSuccess: (data) => {
+      queryClient.invalidateQueries('blogs')
+      blogFormRef.current.toggleVisibility()
+      const successMessage = `a new blog ${data.title} by ${data.author} added`
+      setNotification(successMessage)
+    },
+    onError: () => {
+      const errorMessage = 'oops'
+      setNotification(errorMessage)
+    },
+  })
+
+  const createBlog = async (newBlog) => {
+    try {
+      await createMutation.mutateAsync(newBlog)
+    } catch (exception) {
+      console.error(exception)
+    }
+  };
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem("loggedBlogappUser");
@@ -56,25 +77,6 @@ const App = () => {
       setNotification(successMessage)
     } catch (exception) {
       const errorMessage = "wrong credentials"
-      setNotification(errorMessage)
-    }
-  };
-
-  const blogFormRef = useRef();
-
-  const createBlog = async (newBlog) => {
-    try {
-      const returnedBlog = await blogService.create(newBlog);
-      const blogCreator = returnedBlog.user.name
-        ? returnedBlog.user.name
-        : user.name;
-      returnedBlog.creator = blogCreator;
-      setBlogs(blogs.concat(returnedBlog));
-      const successMessage = "a new blog " + newBlog.title + " by " + newBlog.author + " added"
-      setNotification(successMessage)
-      blogFormRef.current.toggleVisibility();
-    } catch (exception) {
-      const errorMessage = "oops"
       setNotification(errorMessage)
     }
   };
