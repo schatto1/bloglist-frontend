@@ -51,11 +51,37 @@ const App = () => {
     }
   )
 
+  const removeMutation = useMutation((blog) => blogService.remove(blog), {
+    onSuccess: () => {
+      queryClient.invalidateQueries('blogs')
+    },
+  })
+
   const createBlog = async (newBlog) => {
     try {
       await createMutation.mutateAsync(newBlog)
     } catch (exception) {
       console.error(exception)
+    }
+  };
+
+  const handleLike = async (updatedBlog) => {
+    await updateMutation.mutateAsync(updatedBlog)
+  };
+
+  const handleRemove = async (blogToRemove) => {
+    const confirmRemoval = window.confirm(
+      `Are you sure you want to remove "${blogToRemove.title}" by ${blogToRemove.author}?`,
+    );
+    if (confirmRemoval) {
+      try {
+        await removeMutation.mutateAsync(blogToRemove)
+        const successMessage = blogToRemove.title + " by " + blogToRemove.author + " deleted"
+        setNotification(successMessage)
+      } catch (exception) {
+        const errorMessage = "oops"
+        setNotification(errorMessage)
+      }
     }
   };
 
@@ -85,35 +111,6 @@ const App = () => {
     } catch (exception) {
       const errorMessage = "wrong credentials"
       setNotification(errorMessage)
-    }
-  };
-
-  const handleLike = async (updatedBlog) => {
-    await updateMutation.mutateAsync(updatedBlog)
-    // await blogService.update(updatedBlog);
-    // const updatedBlogs = [...blogs];
-    // const blogToUpdate = updatedBlogs.find(
-    //   (blog) => blog.id === updatedBlog.id,
-    // );
-    // blogToUpdate.likes += 1;
-    // setBlogs(updatedBlogs.sort((a, b) => b.likes - a.likes));
-  };
-
-  const handleRemove = async (blogToRemove) => {
-    const confirmRemoval = window.confirm(
-      `Are you sure you want to remove "${blogToRemove.title}" by ${blogToRemove.author}?`,
-    );
-    if (confirmRemoval) {
-      try {
-        await blogService.remove(blogToRemove);
-        const lessBlogs = blogs.filter((blog) => blog.id !== blogToRemove.id);
-        setBlogs(lessBlogs);
-        const successMessage = blogToRemove.title + " by " + blogToRemove.author + " deleted"
-        setNotification(successMessage)
-      } catch (exception) {
-        const errorMessage = "oops"
-        setNotification(errorMessage)
-      }
     }
   };
 
