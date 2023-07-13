@@ -47,7 +47,6 @@ const App = () => {
   const updateMutation = useMutation((updatedBlog) => blogService.update(updatedBlog), {
       onSuccess: () => {
         queryClient.invalidateQueries('blogs')
-        blogFormRef.current.toggleVisibility()
       },
     }
   )
