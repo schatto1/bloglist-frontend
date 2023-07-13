@@ -44,6 +44,14 @@ const App = () => {
     },
   })
 
+  const updateMutation = useMutation((updatedBlog) => blogService.update(updatedBlog), {
+      onSuccess: () => {
+        queryClient.invalidateQueries('blogs')
+        blogFormRef.current.toggleVisibility()
+      },
+    }
+  )
+
   const createBlog = async (newBlog) => {
     try {
       await createMutation.mutateAsync(newBlog)
@@ -82,13 +90,14 @@ const App = () => {
   };
 
   const handleLike = async (updatedBlog) => {
-    await blogService.update(updatedBlog);
-    const updatedBlogs = [...blogs];
-    const blogToUpdate = updatedBlogs.find(
-      (blog) => blog.id === updatedBlog.id,
-    );
-    blogToUpdate.likes += 1;
-    setBlogs(updatedBlogs.sort((a, b) => b.likes - a.likes));
+    await updateMutation.mutateAsync(updatedBlog)
+    // await blogService.update(updatedBlog);
+    // const updatedBlogs = [...blogs];
+    // const blogToUpdate = updatedBlogs.find(
+    //   (blog) => blog.id === updatedBlog.id,
+    // );
+    // blogToUpdate.likes += 1;
+    // setBlogs(updatedBlogs.sort((a, b) => b.likes - a.likes));
   };
 
   const handleRemove = async (blogToRemove) => {
