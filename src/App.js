@@ -6,15 +6,18 @@ import Togglable from "./components/Togglable";
 import blogService from "./services/blogs";
 import loginService from "./services/login";
 import { useNotificationDispatch } from "./NotificationContext";
+import { useUserDispatch, useUserValue } from "./UserContext";
 import { useQuery, useMutation, useQueryClient } from 'react-query'
 
 const App = () => {
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [user, setUser] = useState(null);
+  // const [user, setUser] = useState(null);
 
-  const dispatch = useNotificationDispatch()
+  const dispatch = useNotificationDispatch();
+  const userDispatch = useUserDispatch();
+  const userValue = useUserValue();
 
   const setNotification = (message) => {
     dispatch({
@@ -24,6 +27,13 @@ const App = () => {
     setTimeout(() => {
       dispatch({type: 'OFF'})
     }, 5000)
+  }
+
+  const setUser = (user) => {
+    userDispatch({
+      type: 'SET_USER',
+      user: user
+    })
   }
 
   const blogFormRef = useRef();
@@ -91,6 +101,7 @@ const App = () => {
       const user = JSON.parse(loggedUserJSON);
       setUser(user);
       blogService.setToken(user.token);
+      setUser(user)
     }
   }, []);
 
@@ -117,7 +128,7 @@ const App = () => {
   const handleLogout = async () => {
     window.localStorage.removeItem("loggedBlogappUser");
     blogService.setToken(null);
-    setUser(null);
+    userDispatch({type: "CLEAR_USER"});
     setUsername("");
     setPassword("");
     setNotification("successfully logged out, bye!");
@@ -151,7 +162,7 @@ const App = () => {
     </form>
   );
 
-  if (user === null) {
+  if (userValue === null) {
     return (
       <div>
         <h2>Log in to application</h2>
@@ -161,12 +172,13 @@ const App = () => {
     );
   }
 
+
   return (
     <div>
       <h2>blogs</h2>
       <Notification />
       <p>
-        {user.name} logged in &nbsp;
+        {userValue.user.name} logged in &nbsp;
         <button type="submit" onClick={handleLogout}>
           logout
         </button>
@@ -181,7 +193,7 @@ const App = () => {
           blog={blog}
           handleLike={handleLike}
           handleRemove={handleRemove}
-          currentUser={user}
+          currentUser={userValue}
         />
       ))}
     </div>

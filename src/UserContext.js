@@ -3,20 +3,12 @@ import { userReducer } from './userReducer'
 
 const UserContext = createContext()
 
-const initialState = {
-  user: null,
-}
-
-export const UserContextProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(
-    userReducer,
-    initialState,
-    () => initialState
-  )
+export const UserContextProvider = (props) => {
+  const [user, dispatch] = useReducer(userReducer, null)
 
   return (
-    <UserContext.Provider value={{ state, dispatch }}>
-      {children}
+    <UserContext.Provider value={ [user, dispatch] }>
+      {props.children}
     </UserContext.Provider>
   )
 }

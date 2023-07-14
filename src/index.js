@@ -10,12 +10,12 @@ import { UserContextProvider } from "./UserContext";
 const queryClient = new QueryClient()
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <UserContextProvider>
+  <QueryClientProvider client={queryClient}>
     <NotificationContextProvider>
-      <QueryClientProvider client={queryClient}>
+      <UserContextProvider>
         <App />
-      </QueryClientProvider>
+      </UserContextProvider>
     </NotificationContextProvider>
-  </UserContextProvider>
+  </QueryClientProvider>
   
 )
