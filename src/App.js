@@ -8,10 +8,11 @@ import loginService from "./services/login";
 import { useNotificationDispatch } from "./NotificationContext";
 import { useUserDispatch, useUserValue } from "./UserContext";
 import { useQuery, useMutation, useQueryClient } from 'react-query'
-// import {
-//   BrowserRouter as Router,
-//   Routes, Route, Link
-// } from 'react-router-dom'
+import {
+  BrowserRouter as Router,
+  Routes, Route, Link
+} from 'react-router-dom'
+import Users from "./components/Users";
 
 const App = () => {
 
@@ -179,18 +180,13 @@ const App = () => {
 
   return (
     <Router>
-      {/* <div>
-        <Link  to="/">home</Link>
-        <Link  to="/blogs">blog</Link>
+      <div>
+        {/* <Link  to="/">home</Link> */}
+        {/* <Link  to="/blogs">blog</Link> */}
         <Link  to="/users">users</Link>
       </div>
-      <Routes>
-        <Route path="/notes" element={<Notes />} />
-        <Route path="/users" element={<Users />} />
-        <Route path="/" element={<Home />} />
-      </Routes> */}
       <div>
-        <h2>blogs</h2>
+        <h2>blogs app</h2>
         <Notification />
         <p>
           {userValue.user.name} logged in &nbsp;
@@ -198,6 +194,13 @@ const App = () => {
             logout
           </button>
         </p>
+      </div>
+      <Routes>
+        {/* <Route path="/notes" element={<Notes />} /> */}
+        <Route path="/users" element={<Users />} />
+        {/* <Route path="/" element={<Home />} /> */}
+      </Routes>
+      <div>
         <Togglable buttonLabel="create new blog" ref={blogFormRef}>
           <BlogForm handleSubmit={createBlog} />
         </Togglable>
