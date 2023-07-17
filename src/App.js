@@ -8,6 +8,10 @@ import loginService from "./services/login";
 import { useNotificationDispatch } from "./NotificationContext";
 import { useUserDispatch, useUserValue } from "./UserContext";
 import { useQuery, useMutation, useQueryClient } from 'react-query'
+// import {
+//   BrowserRouter as Router,
+//   Routes, Route, Link
+// } from 'react-router-dom'
 
 const App = () => {
 
@@ -174,29 +178,41 @@ const App = () => {
 
 
   return (
-    <div>
-      <h2>blogs</h2>
-      <Notification />
-      <p>
-        {userValue.user.name} logged in &nbsp;
-        <button type="submit" onClick={handleLogout}>
-          logout
-        </button>
-      </p>
-      <Togglable buttonLabel="create new blog" ref={blogFormRef}>
-        <BlogForm handleSubmit={createBlog} />
-      </Togglable>
+    <Router>
+      {/* <div>
+        <Link  to="/">home</Link>
+        <Link  to="/blogs">blog</Link>
+        <Link  to="/users">users</Link>
+      </div>
+      <Routes>
+        <Route path="/notes" element={<Notes />} />
+        <Route path="/users" element={<Users />} />
+        <Route path="/" element={<Home />} />
+      </Routes> */}
+      <div>
+        <h2>blogs</h2>
+        <Notification />
+        <p>
+          {userValue.user.name} logged in &nbsp;
+          <button type="submit" onClick={handleLogout}>
+            logout
+          </button>
+        </p>
+        <Togglable buttonLabel="create new blog" ref={blogFormRef}>
+          <BlogForm handleSubmit={createBlog} />
+        </Togglable>
 
-      {blogs.map((blog) => (
-        <Blog
-          key={blog.id}
-          blog={blog}
-          handleLike={handleLike}
-          handleRemove={handleRemove}
-          currentUser={userValue}
-        />
-      ))}
-    </div>
+        {blogs.map((blog) => (
+          <Blog
+            key={blog.id}
+            blog={blog}
+            handleLike={handleLike}
+            handleRemove={handleRemove}
+            currentUser={userValue}
+          />
+        ))}
+      </div>
+    </Router>
   );
 };
 
