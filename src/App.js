@@ -1,8 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import Blog from "./components/Blog";
-import BlogForm from "./components/BlogForm";
 import Notification from "./components/Notification";
-import Togglable from "./components/Togglable";
 import blogService from "./services/blogs";
 import loginService from "./services/login";
 import { useNotificationDispatch } from "./NotificationContext";
@@ -13,6 +10,7 @@ import {
   Routes, Route, Link
 } from 'react-router-dom'
 import Users from "./components/Users";
+import Blogs from "./components/Blogs";
 
 const App = () => {
 
@@ -182,7 +180,7 @@ const App = () => {
     <Router>
       <div>
         {/* <Link  to="/">home</Link> */}
-        {/* <Link  to="/blogs">blog</Link> */}
+        <Link  to="/blogs">blogs</Link>
         <Link  to="/users">users</Link>
       </div>
       <div>
@@ -196,25 +194,16 @@ const App = () => {
         </p>
       </div>
       <Routes>
-        {/* <Route path="/notes" element={<Notes />} /> */}
+        <Route path="/blogs" element={<Blogs blogs={blogs}
+                                                  blogFormRef={blogFormRef}
+                                                  createBlog={createBlog}
+                                                  handleLike={handleLike}
+                                                  handleRemove={handleRemove}
+                                                  userValue={userValue}/>} />
         <Route path="/users" element={<Users />} />
         {/* <Route path="/" element={<Home />} /> */}
       </Routes>
-      <div>
-        <Togglable buttonLabel="create new blog" ref={blogFormRef}>
-          <BlogForm handleSubmit={createBlog} />
-        </Togglable>
-
-        {blogs.map((blog) => (
-          <Blog
-            key={blog.id}
-            blog={blog}
-            handleLike={handleLike}
-            handleRemove={handleRemove}
-            currentUser={userValue}
-          />
-        ))}
-      </div>
+      
     </Router>
   );
 };
