@@ -10,7 +10,9 @@ import {
   Routes, Route, Link
 } from 'react-router-dom'
 import Users from "./components/Users";
+import User from "./components/User";
 import Blogs from "./components/Blogs";
+import userService from "./services/users"
 
 const App = () => {
 
@@ -43,6 +45,7 @@ const App = () => {
 
   const queryClient = useQueryClient()
   const { data: blogs = [] } = useQuery('blogs', blogService.getAll)
+  const { data: users = [] } = useQuery('users', userService.getUsers)
 
   const createMutation = useMutation((newBlog) => blogService.create(newBlog), {
     onSuccess: (data) => {
@@ -200,7 +203,8 @@ const App = () => {
                                                   handleLike={handleLike}
                                                   handleRemove={handleRemove}
                                                   userValue={userValue}/>} />
-        <Route path="/users" element={<Users />} />
+        <Route path="/users" element={<Users users={users}/>} />
+        <Route path="/users/:id" element={<User users={users}/>} />
         {/* <Route path="/" element={<Home />} /> */}
       </Routes>
       

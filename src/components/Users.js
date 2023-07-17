@@ -1,10 +1,10 @@
-import { useQuery } from "react-query";
-import userService from '../services/users'
+import { Link } from 'react-router-dom'
 
-const UserList = ({users}) => {
+const Users = ({ users }) => {
 
   return (
     <div>
+      <h2>Users</h2>
       <table>
         <thead>
           <tr>
@@ -15,24 +15,12 @@ const UserList = ({users}) => {
         <tbody>
         {users.map((user) => (
           <tr key={user.id}>
-            <td key={user.name}>{user.name}</td>
+            <td key={user.name}><Link to={`/users/${user.id}`}>{user.name}</Link></td>
             <td key={user.blogs}>{user.blogs.length}</td>
           </tr>
         ))}
         </tbody>
       </table>
-    </div>
-  )
-}
-
-const Users = () => {
-  const { data: users = [] } = useQuery('users', userService.getUsers)
-  console.log(users)
-
-  return (
-    <div>
-      <h2>Users</h2>
-      <UserList users={users} />
     </div>
   )
 }
