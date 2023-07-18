@@ -19,11 +19,15 @@ const App = () => {
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  // const [user, setUser] = useState(null);
 
   const dispatch = useNotificationDispatch();
   const userDispatch = useUserDispatch();
   const userValue = useUserValue();
+
+  const navBarStyling = {
+    padding: 5,
+    background: "lightBlue"
+  }
 
   const setNotification = (message) => {
     dispatch({
@@ -182,20 +186,20 @@ const App = () => {
 
   return (
     <Router>
-      <div>
+      <div style={navBarStyling}>
         {/* <Link  to="/">home</Link> */}
-        <Link  to="/blogs">blogs</Link>
-        <Link  to="/users">users</Link>
-      </div>
-      <div>
-        <h2>blogs app</h2>
-        <Notification />
-        <p>
+        <Link style={navBarStyling} to="/blogs">blogs</Link>
+        <Link style={navBarStyling} to="/users">users</Link>
+        <span style={navBarStyling}>
           {userValue.user.name} logged in &nbsp;
           <button type="submit" onClick={handleLogout}>
             logout
           </button>
-        </p>
+        </span>
+      </div>
+      <div>
+        <h2>blogs app</h2>
+        <Notification />
       </div>
       <Routes>
         <Route path="/blogs" element={<Blogs blogs={blogs}
