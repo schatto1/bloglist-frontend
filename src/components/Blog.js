@@ -1,12 +1,13 @@
-import { useState } from "react";
 import PropTypes from "prop-types";
+import { useParams } from "react-router-dom";
 
-const Blog = ({ blog, handleLike, handleRemove, currentUser }) => {
-  const [showDetail, setShowDetail] = useState(false);
+const Blog = ({ blogs, handleLike, handleRemove, currentUser }) => {
+  const id = useParams().id
+  const blog = blogs.find(b => b.id === id )
 
-  const toggleDetail = () => {
-    setShowDetail(!showDetail);
-  };
+  if (!blog) {
+    return null
+  }
 
   const updateLike = () => {
     const updatedBlog = {
@@ -29,53 +30,36 @@ const Blog = ({ blog, handleLike, handleRemove, currentUser }) => {
     ? blog.user.name
       ? blog.user.name
       : blog.creator
-    : "User unknown";
-
-  if (showDetail) {
-    return (
-      <div className="blog">
-        <div>
-          <span>{blog.title}</span> <span>{blog.author}</span>
-          &nbsp;
-          <button onClick={toggleDetail} id="hideDetails">
-            hide details
-          </button>
-        </div>
-        <div>{blog.url}</div>
-        <div>
-          <span id="likeCount">{blog.likes}</span>
-          &nbsp;
-          <button onClick={updateLike} id="likeButton">
-            like
-          </button>
-        </div>
-        <div>{userFullName}</div>
-        {blog.user && blog.user.username === currentUser.username ? (
-          <div>
-            <button onClick={removeBlog} id="removeButton">
-              remove
-            </button>
-          </div>
-        ) : (
-          ""
-        )}
-      </div>
-    );
-  }
+    : "unknown user";
 
   return (
     <div className="blog">
-      <span>{blog.title}</span> <span>{blog.author}</span>
-      &nbsp;
-      <button onClick={toggleDetail} id="viewButton">
-        view
-      </button>
+      <h2>{blog.title}</h2>
+      <h3>{blog.author}</h3>
+      <div><a href={blog.url} target="_blank" rel="noreferrer">{blog.url}</a></div>
+      <div>
+        <span id="likeCount">{blog.likes}</span>
+        &nbsp;
+        <button onClick={updateLike} id="likeButton">
+          like
+        </button>
+      </div>
+      <div>added by {userFullName}</div>
+      {blog.user && blog.user.username === currentUser.username ? (
+        <div>
+          <button onClick={removeBlog} id="removeButton">
+            remove
+          </button>
+        </div>
+      ) : (
+        ""
+      )}
     </div>
   );
 };
 
 Blog.propTypes = {
-  blog: PropTypes.object.isRequired,
+  blogs: PropTypes.array.isRequired,
   handleLike: PropTypes.func.isRequired,
   handleRemove: PropTypes.func.isRequired,
   currentUser: PropTypes.object.isRequired,

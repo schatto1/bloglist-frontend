@@ -12,6 +12,7 @@ import {
 import Users from "./components/Users";
 import User from "./components/User";
 import Blogs from "./components/Blogs";
+import Blog from "./components/Blog";
 import userService from "./services/users"
 
 const App = () => {
@@ -198,13 +199,14 @@ const App = () => {
       </div>
       <Routes>
         <Route path="/blogs" element={<Blogs blogs={blogs}
-                                                  blogFormRef={blogFormRef}
-                                                  createBlog={createBlog}
-                                                  handleLike={handleLike}
-                                                  handleRemove={handleRemove}
-                                                  userValue={userValue}/>} />
+                                              blogFormRef={blogFormRef}
+                                              createBlog={createBlog}/>} />
         <Route path="/users" element={<Users users={users}/>} />
         <Route path="/users/:id" element={<User users={users}/>} />
+        <Route path="/blogs/:id" element={<Blog blogs={blogs}
+                                                handleLike={handleLike}
+                                                handleRemove={handleRemove}
+                                                currentUser={userValue.user}/>} />
         {/* <Route path="/" element={<Home />} /> */}
       </Routes>
       

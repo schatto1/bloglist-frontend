@@ -1,14 +1,11 @@
 import Togglable from "./Togglable"
 import BlogForm from "./BlogForm"
-import Blog from "./Blog"
+import { Link } from "react-router-dom"
 
 const Blogs = ({
   blogs,
   blogFormRef,
   createBlog,
-  handleLike,
-  handleRemove,
-  userValue
 }) => {
   return (
     <div>
@@ -17,13 +14,17 @@ const Blogs = ({
       </Togglable>
 
       {blogs.map((blog) => (
-        <Blog
-          key={blog.id}
-          blog={blog}
-          handleLike={handleLike}
-          handleRemove={handleRemove}
-          currentUser={userValue}
-        />
+        <div className="blog" key={blog.id}>
+          <Link to={`/blogs/${blog.id}`}><span>{blog.title}</span> <span>{blog.author}</span></Link>
+          &nbsp;
+        </div>
+        // <Blog
+        //   key={blog.id}
+        //   blog={blog}
+        //   handleLike={handleLike}
+        //   handleRemove={handleRemove}
+        //   currentUser={userValue}
+        // />
       ))}
     </div>
   )
