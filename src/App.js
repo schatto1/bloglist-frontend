@@ -189,37 +189,39 @@ const App = () => {
 
 
   return (
-    <Router>
-      <div style={navBarStyling}>
-        {/* <Link  to="/">home</Link> */}
-        <Link style={navBarStyling} to="/blogs">blogs</Link>
-        <Link style={navBarStyling} to="/users">users</Link>
-        <span style={navBarStyling}>
-          {userValue.user.name} logged in &nbsp;
-          <button type="submit" onClick={handleLogout}>
-            logout
-          </button>
-        </span>
-      </div>
-      <div>
-        <h2>blogs app</h2>
-        <Notification />
-      </div>
-      <Routes>
-        <Route path="/blogs" element={<Blogs blogs={blogs}
-                                              blogFormRef={blogFormRef}
-                                              createBlog={createBlog}/>} />
-        <Route path="/users" element={<Users users={users}/>} />
-        <Route path="/users/:id" element={<User users={users}/>} />
-        <Route path="/blogs/:id" element={<Blog blogs={blogs}
-                                                handleLike={handleLike}
-                                                handleRemove={handleRemove}
-                                                handleComment={handleComment}
-                                                currentUser={userValue.user}/>} />
-        {/* <Route path="/" element={<Home />} /> */}
-      </Routes>
-      
-    </Router>
+    <div className="container">
+      <Router>
+        <div style={navBarStyling}>
+          {/* <Link  to="/">home</Link> */}
+          <Link style={navBarStyling} to="/blogs">blogs</Link>
+          <Link style={navBarStyling} to="/users">users</Link>
+          <span style={navBarStyling}>
+            {userValue.user.name} logged in &nbsp;
+            <button type="submit" onClick={handleLogout}>
+              logout
+            </button>
+          </span>
+        </div>
+        <div>
+          <h2>blogs app</h2>
+          <Notification />
+        </div>
+        <Routes>
+          <Route path="/blogs" element={<Blogs blogs={blogs}
+                                                blogFormRef={blogFormRef}
+                                                createBlog={createBlog}/>} />
+          <Route path="/users" element={<Users users={users}/>} />
+          <Route path="/users/:id" element={<User users={users}/>} />
+          <Route path="/blogs/:id" element={<Blog blogs={blogs}
+                                                  handleLike={handleLike}
+                                                  handleRemove={handleRemove}
+                                                  handleComment={handleComment}
+                                                  currentUser={userValue.user}/>} />
+          {/* <Route path="/" element={<Home />} /> */}
+        </Routes>
+        
+      </Router>
+    </div>
   );
 };
 
