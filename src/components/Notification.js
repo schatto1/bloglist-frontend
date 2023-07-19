@@ -1,4 +1,5 @@
 import { useNotificationValue } from "../NotificationContext";
+import { Alert } from "react-bootstrap";
 
 const Notification = () => {
   const notification = useNotificationValue()
@@ -13,9 +14,9 @@ const Notification = () => {
   }
 
   return (
-    <div style={style}>
+    <Alert style={style}>
       {notification}
-    </div>
+    </Alert>
   )
 }
 
