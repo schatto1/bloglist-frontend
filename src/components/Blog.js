@@ -1,7 +1,10 @@
 import PropTypes from "prop-types";
 import { useParams } from "react-router-dom";
+import { useState } from "react";
 
-const Blog = ({ blogs, handleLike, handleRemove, currentUser }) => {
+const Blog = ({ blogs, handleLike, handleRemove, handleComment, currentUser }) => {
+  const [comment, setComment] = useState("");
+
   const id = useParams().id
   const blog = blogs.find(b => b.id === id )
 
@@ -9,7 +12,21 @@ const Blog = ({ blogs, handleLike, handleRemove, currentUser }) => {
     return null
   }
 
-  console.log(blog.comments)
+  const addComment = (event) => {
+    event.preventDefault();
+
+    const updatedComments = blog.comments
+    updatedComments.push(comment)
+
+    const updatedBlog = {
+      ...blog,
+      user: blog.user.id,
+      comments: updatedComments
+    };
+
+    handleComment(updatedBlog);
+    setComment("");
+  };
 
   const updateLike = () => {
     const updatedBlog = {
@@ -56,9 +73,24 @@ const Blog = ({ blogs, handleLike, handleRemove, currentUser }) => {
       ) : (
         ""
       )}
+      <h3>comments</h3>
+      <div>
+        <form onSubmit={addComment}>
+          <input
+            type="text"
+            value={comment}
+            name="Comment"
+            placeholder="Write a comment"
+            onChange={({ target }) => setComment(target.value)}
+            id="comment"
+          />
+          <button type="submit" id="comment">
+            add comment
+          </button>
+        </form>
+      </div>
       {blog.comments.length ? (
         <div>
-          <h3>comments</h3>
           <ul>
             {blog.comments.map((comment) => (
             <li key={comment}>{comment}</li>
@@ -66,9 +98,8 @@ const Blog = ({ blogs, handleLike, handleRemove, currentUser }) => {
           </ul>
         </div>
       ) : (
-        <h3>no comments</h3>
+        <p>no comments yet! Add a comment above.</p>
       )}
-
     </div>
   );
 };

@@ -90,6 +90,10 @@ const App = () => {
     await updateMutation.mutateAsync(updatedBlog)
   };
 
+  const handleComment = async (updatedBlog) => {
+    await updateMutation.mutateAsync(updatedBlog)
+  };
+
   const handleRemove = async (blogToRemove) => {
     const confirmRemoval = window.confirm(
       `Are you sure you want to remove "${blogToRemove.title}" by ${blogToRemove.author}?`,
@@ -210,6 +214,7 @@ const App = () => {
         <Route path="/blogs/:id" element={<Blog blogs={blogs}
                                                 handleLike={handleLike}
                                                 handleRemove={handleRemove}
+                                                handleComment={handleComment}
                                                 currentUser={userValue.user}/>} />
         {/* <Route path="/" element={<Home />} /> */}
       </Routes>
