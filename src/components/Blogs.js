@@ -29,12 +29,6 @@ const Blogs = ({
         ))}
         </tbody>
       </Table>
-      {/* {blogs.map((blog) => (
-        <div className="blog" key={blog.id}>
-          <Link to={`/blogs/${blog.id}`}><span>{blog.title}</span> <span>{blog.author}</span></Link>
-          &nbsp;
-        </div>
-      ))} */}
     </div>
   )
 }

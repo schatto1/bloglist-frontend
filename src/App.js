@@ -218,8 +218,7 @@ const App = () => {
                                                   handleComment={handleComment}
                                                   currentUser={userValue.user}/>} />
           {/* <Route path="/" element={<Home />} /> */}
-        </Routes>
-        
+        </Routes>  
       </Router>
     </div>
   );
