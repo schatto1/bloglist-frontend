@@ -14,7 +14,7 @@ import User from "./components/User";
 import Blogs from "./components/Blogs";
 import Blog from "./components/Blog";
 import userService from "./services/users"
-import { Form, Button } from "react-bootstrap";
+import { Form, Button, Navbar, Nav } from "react-bootstrap";
 
 const App = () => {
 
@@ -190,17 +190,28 @@ const App = () => {
   return (
     <div className="container">
       <Router>
-        <div style={navBarStyling}>
-          {/* <Link  to="/">home</Link> */}
-          <Link style={navBarStyling} to="/blogs">blogs</Link>
-          <Link style={navBarStyling} to="/users">users</Link>
-          <span style={navBarStyling}>
-            {userValue.user.name} logged in &nbsp;
-            <button type="submit" onClick={handleLogout}>
-              logout
-            </button>
-          </span>
-        </div>
+        <Navbar collapseOnSelect expand="lg" style={navBarStyling}>
+          <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+          <Navbar.Collapse id="responsive-navbar-nav">
+            <Nav className="me-auto">
+              <Nav.Link href="#" as="span">
+                <Link style={navBarStyling} to="/blogs">home</Link>
+              </Nav.Link>
+              <Nav.Link href="#" as="span">
+                <Link style={navBarStyling} to="/blogs">blogs</Link>
+              </Nav.Link>
+              <Nav.Link href="#" as="span">
+                <Link style={navBarStyling} to="/users">users</Link>
+              </Nav.Link>
+            </Nav>
+            <span style={navBarStyling}>
+              {userValue.user.name} logged in &nbsp;
+              <button type="submit" onClick={handleLogout}>
+                logout
+              </button>
+            </span>
+          </Navbar.Collapse>
+        </Navbar>
         <div>
           <h2>blogs app</h2>
           <Notification />
