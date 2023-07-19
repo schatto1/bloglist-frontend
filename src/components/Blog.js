@@ -9,6 +9,8 @@ const Blog = ({ blogs, handleLike, handleRemove, currentUser }) => {
     return null
   }
 
+  console.log(blog.comments)
+
   const updateLike = () => {
     const updatedBlog = {
       ...blog,
@@ -54,6 +56,19 @@ const Blog = ({ blogs, handleLike, handleRemove, currentUser }) => {
       ) : (
         ""
       )}
+      {blog.comments.length ? (
+        <div>
+          <h3>comments</h3>
+          <ul>
+            {blog.comments.map((comment) => (
+            <li key={comment}>{comment}</li>
+            ))}
+          </ul>
+        </div>
+      ) : (
+        <h3>no comments</h3>
+      )}
+
     </div>
   );
 };

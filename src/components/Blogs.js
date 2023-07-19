@@ -18,13 +18,6 @@ const Blogs = ({
           <Link to={`/blogs/${blog.id}`}><span>{blog.title}</span> <span>{blog.author}</span></Link>
           &nbsp;
         </div>
-        // <Blog
-        //   key={blog.id}
-        //   blog={blog}
-        //   handleLike={handleLike}
-        //   handleRemove={handleRemove}
-        //   currentUser={userValue}
-        // />
       ))}
     </div>
   )
